@@ -1,0 +1,146 @@
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width:100%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: auto;
+    // top: 0px;
+    height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 12px;
+}
+
+.dropdown-content a {
+    color: black;
+    font-style: italic;
+    padding-left: 5px;
+    padding: 0px!important;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: white; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: forestgreen; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: forestgreen; 
+}
+
+:host ::ng-deep .ui-accordion .ui-accordion-content {
+    padding: 1em;
+    border-top: 0;
+    overflow: visible;
+    zoom: 1;
+    border: 1px solid #c8c8c8;
+    background-color: #ffffff;
+    color: #333333;
+    padding: 0.571em 1em;
+}
+
+:host ::ng-deep .ui-accordion .ui-accordion-header.ui-state-active {
+    /* background: #007ad9; */
+    /* border-left-color: transparent; */
+    /* border-right-color: transparent; */
+    /* border-bottom-color: transparent; */
+    border-radius: 0;
+    background-color: white!important;
+    border: 1px solid #c8c8c8;
+    color: #3e8e41!important;
+}
+
+:host ::ng-deep .ui-state-default a {
+    color: #3e8e41!important;
+}
+
+:host ::ng-deep .h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Open Sans', sans-serif!important;
+}
+
+:host ::ng-deep .body{
+    font-family: 'Open Sans', sans-serif!important;
+}
+
+:host ::ng-deep .form-control:focus{
+    border-color: #9eca45 !important;
+    box-shadow: none!important;
+}
+
+:host ::ng-deep form .form-control{
+    border: 1px solid #c5c5c5!important;
+    color: darkgreen!important;
+    line-height: 2!important;
+  }
+
+:host ::ng-deep  select.form-control:not([size]):not([multiple]) {
+    height: calc(2.25rem + 10px);
+}
+
+.htitle {
+    margin-top: 0.1rem !important;
+    font-weight: 300;
+    color: #2b4a27;
+    line-height: 1.0em;
+}
+
+.hstitle{
+    margin-top: 1.7rem;
+    font-weight: 300;
+    color: #647163;
+    line-height: 1.7;
+}
+
+:host ::ng-deep b, strong {
+    font-weight: 600;
+}
+
+.bultext{
+    padding-top: 20px;
+    font-weight: 300;
+    line-height: 1.5em;
+    color: #647163;
+}
+
+:host ::ng-deep .fa {
+    font-weight: normal;
+    color: #6f9c40;
+}
+
+:host ::ng-deep aw-wizard-navigation-bar.horizontal.small ul.steps-indicator li.current:after {
+    background-color: orange!important;
+}

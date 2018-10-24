@@ -1,0 +1,153 @@
+<p-growl [(value)]="msgs"></p-growl>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Add/Update New Video</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="step1Form" (ngSubmit)="step1()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="MediaId">Media Id</label>
+                        <input class="form-control" readonly id="MediaId" type="text" value="" name="MediaId"
+                            placeholder="MediaId" formControlName="MediaId" />
+                        <br>
+                        <p-autoComplete id="MediaId" placeholder="Search MediaId" name="MediaId" field="Title" styleClass="wid100"
+                            formControlName="MediaId" value="MediaId" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+
+                        <small *ngIf="step1Form.controls['MediaId'].hasError('required') && step1Form.controls['MediaId'].touched"
+                            class="font-small-1 text-danger">
+                            MediaId is required
+                        </small>
+                    </div>
+                </div>
+                <!-- <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="FileName">File Name</label>
+                        <input class="form-control" id="FileName" type="text" value="" name="FileName" placeholder="File Name"
+                            formControlName="FileName" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="FileExtension">File Extension</label>
+                        <input class="form-control" id="FileExtension" type="text" value="" name="FileExtension"
+                            placeholder="File Extension" formControlName="FileExtension" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="FileLocation">File Location</label>
+                        <input class="form-control" id="FileLocation" type="text" value="" name="FileLocation"
+                            placeholder="File Location" formControlName="FileLocation" />
+                    </div>
+                </div> -->
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="VendorCode">Vendor Code</label>
+                        <textarea class="form-control" id="VendorCode" type="text" value="" name="VendorCode"
+                            placeholder="Vendor Code" formControlName="VendorCode" style="height: 125px;"></textarea>
+                        <small *ngIf="step1Form.controls['VendorCode'].hasError('required') && step1Form.controls['VendorCode'].touched"
+                            class="font-small-1 text-danger">
+                            Vendor Code is required
+                        </small>
+                    </div>
+                </div>
+                <!-- <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="WebLocation">Web Location</label>
+                        <input class="form-control" id="WebLocation" type="text" value="" name="WebLocation"
+                            placeholder="Web Location" formControlName="WebLocation" />
+
+                    </div>
+                </div> -->
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="Thumbnail">Thumbnail</label>
+                        <input class="form-control" (change)="onUploadChange($event)" id="Thumbnail" type="file" value=""
+                            name="Thumbnail" formControlName="Thumbnail" />
+                        <small *ngIf="step1Form.controls['Thumbnail'].hasError('required') && step1Form.controls['Thumbnail'].touched"
+                            class="font-small-1 text-danger">
+                            Thumbnail is required
+                        </small>
+                        <!-- <br>
+                        <img src="{{modelData.Thumbnail}}" style="width:100%;height:200px;"> -->
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="InHomeDisplay">InHome Display</label>
+                        <select class="form-control" id="InHomeDisplay" name="InHomeDisplay" placeholder="InHomeDisplay"
+                            formControlName="InHomeDisplay">
+                            <option value="true" selected>true</option>
+                            <option value="false">false</option>
+                        </select>
+                        <small *ngIf="step1Form.controls['InHomeDisplay'].hasError('required') && step1Form.controls['InHomeDisplay'].touched"
+                            class="font-small-1 text-danger">
+                            InHomeDisplay is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="VendorId">VendorId</label>
+                        <input class="form-control" id="VendorId" type="text" value="" name="VendorId" placeholder="VendorId"
+                            formControlName="VendorId" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" style="float:left;" class="btn btn-danger btn-raised" *ngIf="isDelete" (click)="deletevideo()">Delete</button>
+            <button type="submit" class="btn btn-primary btn-raised" [disabled]="step1Form.invalid">Save</button>
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
+        </div>
+    </form>
+</ng-template>
+<!--Modal with Default options ends-->
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Media Location</h4>
+            </div>
+            <div class="card-body">
+                <div class="card-block">
+                    <p-table #dt [value]="data" [columns]="cols" [responsive]="true" selectionMode="single" [paginator]="true"
+                        [rows]="10" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event,content)">
+                        <ng-template pTemplate="caption" let-rowData>
+                            <div style="text-align:left">
+                                <button class="btn btn-lg btn-outline-primary" (click)="open(content,'add')"><i class="fa fa-plus"></i>
+                                    Add</button>
+                                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    style="width:auto;float:right;">
+                            </div>
+
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                    {{col.header}}
+                                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                                <td *ngFor="let col of columns">
+                                    {{rowData[col.field]}}
+                                </td>
+
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

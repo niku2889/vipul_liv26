@@ -1,0 +1,366 @@
+<p-growl [(value)]="msgs"></p-growl>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Add/Update Media</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="step1Form" (ngSubmit)="step1()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="Title">Title</label>
+                        <textarea class="form-control" id="Title" type="text" value="" name="Title" placeholder="Title"
+                            formControlName="Title" style="height: 125px;"></textarea>
+                        <small *ngIf="step1Form.controls['Title'].hasError('required') && step1Form.controls['Title'].touched"
+                            class="font-small-1 text-danger">
+                            Title is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="Description">Description</label>
+                        <textarea class="form-control" id="Description" type="text" value="" name="Description"
+                            placeholder="Description" formControlName="Description" style="height: 125px;"> </textarea>
+                        <small *ngIf="step1Form.controls['Description'].hasError('required') && step1Form.controls['Description'].touched"
+                            class="font-small-1 text-danger">
+                            Description is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <br>
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="MediaType">MediaType</label>
+                        <!-- <input class="form-control" id="MediaType" type="text" value="" name="MediaType" placeholder="MediaType"
+                            formControlName="MediaType" /> -->
+                        <input type="radio" value="Picture" name="MediaType" formControlName="MediaType"> Picture
+                        <input type="radio" value="Video" name="MediaType" formControlName="MediaType"> Video
+                        <small *ngIf="step1Form.controls['MediaType'].hasError('required') && step1Form.controls['MediaType'].touched"
+                            class="font-small-1 text-danger">
+                            MediaType is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="MediaCategory">MediaCategory</label>
+                        <select class="form-control" id="MediaCategory" name="MediaCategory" formControlName="MediaCategory"
+                            (change)=" ($event.target.name)">
+                            <option *ngFor="let item of categoryData" value="{{item.CategoryId}}">{{item.CategoryName}}</option>
+                        </select>
+                        <small *ngIf="step1Form.controls['MediaCategory'].hasError('required') && step1Form.controls['MediaCategory'].touched"
+                            class="font-small-1 text-danger">
+                            MediaCategory is required
+                        </small>
+                    </div>
+                </div>
+                <!-- <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="UploadedBy">UploadedBy</label>
+                        <input class="form-control" id="UploadedBy" type="text" value="" name="UploadedBy" placeholder="UploadedBy"
+                            formControlName="UploadedBy" />
+                        <small *ngIf="step1Form.controls['UploadedBy'].hasError('required') && step1Form.controls['UploadedBy'].touched"
+                            class="font-small-1 text-danger">
+                            UploadedBy is required
+                        </small>
+                    </div>
+                </div> -->
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="MediaLocation">MediaLocation</label>
+                        <input class="form-control" id="MediaLocation" type="text" step="0.01" value="" name="MediaLocation"
+                            placeholder="MediaLocation" formControlName="MediaLocation" />
+                        <small *ngIf="step1Form.controls['MediaLocation'].hasError('required') && step1Form.controls['MediaLocation'].touched"
+                            class="font-small-1 text-danger">
+                            MediaLocation is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="MediaLength">MediaLength</label>
+                        <input class="form-control" id="MediaLength" type="number" name="MediaLength" placeholder="MediaLength"
+                            formControlName="MediaLength" />
+                        <small *ngIf="step1Form.controls['MediaLength'].hasError('required') && step1Form.controls['MediaLength'].touched"
+                            class="font-small-1 text-danger">
+                            MediaLength is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="Language">Language</label>
+                        <select class="form-control" id="Language" name="Language" formControlName="Language">
+                            <option *ngFor="let item of languageData" value="{{item.Language}}">{{item.Language}}</option>
+                        </select>
+                        <small *ngIf="step1Form.controls['Language'].hasError('required') && step1Form.controls['Language'].touched"
+                            class="font-small-1 text-danger">
+                            Language is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="DisplayOrder">DisplayOrder</label>
+                        <input class="form-control" id="DisplayOrder" type="number" value="" name="DisplayOrder"
+                            placeholder="DisplayOrder" formControlName="DisplayOrder" />
+                        <small *ngIf="step1Form.controls['DisplayOrder'].hasError('required') && step1Form.controls['DisplayOrder'].touched"
+                            class="font-small-1 text-danger">
+                            DisplayOrder is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="Playlist">Playlist</label>
+                        <input class="form-control" readonly id="Playlist" type="text" value="" name="Playlist"
+                            placeholder="Playlist" formControlName="Playlist" />
+                        <br>
+                        <p-autoComplete id="Playlist" placeholder="Search Playlist" name="Playlist" field="Playlist"
+                            styleClass="wid100" formControlName="Playlist" value="Playlist" [suggestions]="results"
+                            (completeMethod)="search($event)"></p-autoComplete>
+                        <small *ngIf="step1Form.controls['Playlist'].hasError('required') && step1Form.controls['Playlist'].touched"
+                            class="font-small-1 text-danger">
+                            Playlist is required
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" style="float:left;" class="btn btn-danger btn-raised" *ngIf="isDelete" [disabled]="step1Form.invalid"
+                (click)="deleteMedia1()">Delete</button>
+            <button type="submit" class="btn btn-primary btn-raised" [disabled]="step1Form.invalid">Save</button>
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
+        </div>
+    </form>
+</ng-template>
+<!--Modal with Default options ends-->
+
+<ng-template #content1 let-c="close" let-d="dismiss">
+
+    <div class="modal-header">
+        <h4 class="modal-title">Add New Video</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="step2Form" (ngSubmit)="addMapping()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="Title">Title</label>
+                        <p>{{title}}</p>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="Client">Client</label>
+                        <input class="form-control" id="Client" type="text" value="" name="Client" placeholder="Client"
+                            formControlName="Client" />
+                        <small *ngIf="step2Form.controls['Client'].hasError('required') && step2Form.controls['Client'].touched"
+                            class="font-small-1 text-danger">
+                            Client is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="VideoId">VideoId</label>
+                        <input class="form-control" id="VideoId" type="text" value="" name="VideoId" placeholder="VideoId"
+                            formControlName="VideoId" />
+                        <small *ngIf="step2Form.controls['VideoId'].hasError('required') && step2Form.controls['VideoId'].touched"
+                            class="font-small-1 text-danger">
+                            VideoId is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="VideoLink">VideoLink</label>
+                        <textarea class="form-control" id="VideoLink" type="text" value="" name="VideoLink" placeholder="VideoLink"
+                            formControlName="VideoLink" style="height: 125px;"></textarea>
+                        <small *ngIf="step2Form.controls['VideoLink'].hasError('required') && step2Form.controls['VideoLink'].touched"
+                            class="font-small-1 text-danger">
+                            VideoLink is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="ThumbnailLink">ThumbnailLink</label>
+                        <textarea class="form-control" id="ThumbnailLink" type="text" value="" name="ThumbnailLink"
+                            placeholder="ThumbnailLink" formControlName="ThumbnailLink" style="height: 125px;"></textarea>
+                        <small *ngIf="step2Form.controls['ThumbnailLink'].hasError('required') && step2Form.controls['ThumbnailLink'].touched"
+                            class="font-small-1 text-danger">
+                            ThumbnailLink is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="Quality">Quality</label>
+                        <input class="form-control" id="Quality" type="text" value="" name="Quality" placeholder="Quality"
+                            formControlName="Quality" />
+                        <small *ngIf="step2Form.controls['Quality'].hasError('required') && step2Form.controls['Quality'].touched"
+                            class="font-small-1 text-danger">
+                            Quality is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="VideoType">VideoType</label>
+                        <input class="form-control" id="Client" type="text" value="" name="VideoType" placeholder="VideoType"
+                            formControlName="VideoType" />
+                        <small *ngIf="step2Form.controls['VideoType'].hasError('required') && step2Form.controls['VideoType'].touched"
+                            class="font-small-1 text-danger">
+                            VideoType is required
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary btn-raised" [disabled]="step2Form.invalid">Save</button>
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #content2 let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Add New Video Location</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="step3Form" (ngSubmit)="addLocation()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="MediaId">Media Id</label>
+                        <input class="form-control" readonly id="MediaId" type="text" value="" name="MediaId"
+                            placeholder="MediaId" formControlName="MediaId" />
+                        <br>
+                        <p-autoComplete id="MediaId" placeholder="Search MediaId" name="MediaId" field="Title"
+                            styleClass="wid100" formControlName="MediaId" value="MediaId" [suggestions]="results"
+                            (completeMethod)="search1($event)"></p-autoComplete>
+
+                        <small *ngIf="step3Form.controls['MediaId'].hasError('required') && step3Form.controls['MediaId'].touched"
+                            class="font-small-1 text-danger">
+                            MediaId is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="VendorCode">Vendor Code</label>
+                        <textarea class="form-control" id="VendorCode" type="text" value="" name="VendorCode"
+                            placeholder="Vendor Code" formControlName="VendorCode" style="height: 125px;"></textarea>
+                        <small *ngIf="step3Form.controls['VendorCode'].hasError('required') && step3Form.controls['VendorCode'].touched"
+                            class="font-small-1 text-danger">
+                            Vendor Code is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="Thumbnail">Thumbnail</label>
+                        <input class="form-control" (change)="onUploadChange($event)" id="Thumbnail" type="file" value=""
+                            name="Thumbnail" formControlName="Thumbnail" />
+                        <small *ngIf="step3Form.controls['Thumbnail'].hasError('required') && step3Form.controls['Thumbnail'].touched"
+                            class="font-small-1 text-danger">
+                            Thumbnail is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="InHomeDisplay">InHome Display</label>
+                        <select class="form-control" id="InHomeDisplay" name="InHomeDisplay" placeholder="InHomeDisplay"
+                            formControlName="InHomeDisplay">
+                            <option value="true" selected>true</option>
+                            <option value="false">false</option>
+                        </select>
+                        <small *ngIf="step3Form.controls['InHomeDisplay'].hasError('required') && step3Form.controls['InHomeDisplay'].touched"
+                            class="font-small-1 text-danger">
+                            InHomeDisplay is required
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-bottom: 0px!important;">
+                        <label for="VendorId">VendorId</label>
+                        <input class="form-control" id="VendorId" type="text" value="" name="VendorId" placeholder="VendorId"
+                            formControlName="VendorId" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary btn-raised" [disabled]="step3Form.invalid">Save</button>
+            <button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
+        </div>
+    </form>
+</ng-template>
+<!--Modal with Default options ends-->
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Media</h4>
+            </div>
+            <div class="card-body">
+                <div class="card-block">
+                    <p-table #dt [value]="datasource" [columns]="cols" [responsive]="true" [lazy]="true" selectionMode="single"
+                        (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"
+                        [loading]="loading" [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event,'edit',content)">
+                        <ng-template pTemplate="caption" let-rowData>
+                            <div style="text-align:left">
+                                <button class="btn btn-lg btn-outline-primary" (click)="open(content,'add')"><i class="fa fa-plus"></i>
+                                    Add</button>
+                                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                    style="width:auto;float:right;">
+                            </div>
+
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                    {{col.header}}
+                                    <!-- <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon> -->
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                                <td *ngFor="let col of columns">
+                                    {{rowData[col.field]}}
+                                </td>
+                                <td>
+                                    <button class="btn btn-default" type="button" (click)="onMappingSelect(rowData['Title'],'mapping',content1)"><i
+                                            class="fa fa-plus"></i>
+                                        Mapping</button>
+                                    <button class="btn btn-default" type="button" (click)="onLocationSelect(rowData['Title'],'location',content2)"><i
+                                            class="fa fa-plus"></i>
+                                        Location</button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

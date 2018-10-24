@@ -1,0 +1,124 @@
+<p-growl [(value)]="msgs"></p-growl>
+<ng-template #content let-c="close" let-d="dismiss">
+
+	<div class="modal-header">
+		<h4 class="modal-title">Add/Update New Video</h4>
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<form [formGroup]="step1Form" (ngSubmit)="step1()">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group" style="margin-bottom: 0px!important;">
+						<label for="Client">Client</label>
+						<input class="form-control" id="Client" type="text" value="" name="Client" placeholder="Client" formControlName="Client" />
+						<small *ngIf="step1Form.controls['Client'].hasError('required') && step1Form.controls['Client'].touched" class="font-small-1 text-danger">
+							Client is required
+						</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group" style="margin-bottom: 0px!important;">
+						<label for="VideoId">VideoId</label>
+						<input class="form-control" id="VideoId" type="text" value="" name="VideoId" placeholder="VideoId"
+						 formControlName="VideoId" />
+						<small *ngIf="step1Form.controls['VideoId'].hasError('required') && step1Form.controls['VideoId'].touched" class="font-small-1 text-danger">
+							VideoId is required
+						</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group" style="margin-bottom: 0px!important;">
+						<label for="VideoLink">VideoLink</label>
+						<textarea class="form-control" id="VideoLink" type="text" value="" name="VideoLink" placeholder="VideoLink"
+						 formControlName="VideoLink" style="height: 125px;"></textarea>
+						<small *ngIf="step1Form.controls['VideoLink'].hasError('required') && step1Form.controls['VideoLink'].touched"
+						 class="font-small-1 text-danger">
+							VideoLink is required
+						</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group" style="margin-bottom: 0px!important;">
+						<label for="ThumbnailLink">ThumbnailLink</label>
+						<textarea class="form-control" id="ThumbnailLink" type="text" value="" name="ThumbnailLink" placeholder="ThumbnailLink"
+						 formControlName="ThumbnailLink" style="height: 125px;"></textarea>
+						<small *ngIf="step1Form.controls['ThumbnailLink'].hasError('required') && step1Form.controls['ThumbnailLink'].touched"
+						 class="font-small-1 text-danger">
+							ThumbnailLink is required
+						</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group" style="margin-bottom: 0px!important;">
+						<label for="Quality">Quality</label>
+						<input class="form-control" id="Quality" type="text" value="" name="Quality" placeholder="Quality"
+						 formControlName="Quality" />
+						<small *ngIf="step1Form.controls['Quality'].hasError('required') && step1Form.controls['Quality'].touched" class="font-small-1 text-danger">
+							Quality is required
+						</small>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group" style="margin-bottom: 0px!important;">
+						<label for="VideoType">VideoType</label>
+						<input class="form-control" id="Client" type="text" value="" name="VideoType" placeholder="VideoType"
+						 formControlName="VideoType" />
+						<small *ngIf="step1Form.controls['VideoType'].hasError('required') && step1Form.controls['VideoType'].touched"
+						 class="font-small-1 text-danger">
+							VideoType is required
+						</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" style="float:left;" class="btn btn-danger btn-raised" *ngIf="isDelete" (click)="deletevideo()">Delete</button>
+			<button type="submit" class="btn btn-primary btn-raised" [disabled]="step1Form.invalid">Save</button>
+			<button type="button" class="btn btn-secondary btn-raised" (click)="c('Close click')">Close</button>
+		</div>
+	</form>
+</ng-template>
+<!--Modal with Default options ends-->
+
+<div class="row">
+	<div class="col-xl-12 col-lg-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title mb-0">Mapping Video</h4>
+			</div>
+			<div class="card-body">
+				<div class="card-block">
+					<p-table #dt [value]="data" [columns]="cols" [responsive]="true" selectionMode="single" [paginator]="true" [rows]="10"
+					 [(selection)]="selectedCar" (onRowSelect)="onRowSelect($event,content)">
+						<ng-template pTemplate="caption" let-rowData>
+							<div style="text-align:left">
+								<button class="btn btn-lg btn-outline-primary" (click)="open(content,'add')"><i class="fa fa-plus"></i> Add</button>
+								<input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')"
+								 style="width:auto;float:right;">
+							</div>
+						</ng-template>
+						<ng-template pTemplate="header" let-columns>
+							<tr>
+								<th *ngFor="let col of columns" [pSortableColumn]="col.field">
+									{{col.header}}
+									<p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+									 ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+								</th>
+							</tr>
+						</ng-template>
+						<ng-template pTemplate="body" let-rowData let-columns="columns">
+							<tr [pSelectableRow]="rowData">
+								<td *ngFor="let col of columns">
+									{{rowData[col.field]}}
+								</td>
+							</tr>
+						</ng-template>
+					</p-table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
